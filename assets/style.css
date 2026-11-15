@@ -2,7 +2,7 @@
 :root {
   --bg: #ffffff; --panel: #f7f7f5; --panel2: #efeeea; --line: #e4e2dc; --line2: #cbc8bf;
   --text: #14171c; --text2: #353a44; --mut: #50545e; --dim: #6b707b;
-  --accent: #14171c; --accent-rgb: 20, 23, 28; --teal: #3a6b8a; --steel: #5b6b80;
+  --accent: #14171c; --accent-rgb: 20, 23, 28; --hi: #14171c; --teal: #3a6b8a; --steel: #5b6b80;
   --topbg: rgba(255, 255, 255, .9);
   --sans: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
   --serif: "Newsreader", Georgia, "Times New Roman", serif;
@@ -597,3 +597,14 @@ h1 { font-weight: 400 !important; }
 .numbers-gtm b { font-family: var(--serif) !important; font-size: clamp(2rem, 3.6vw, 3.2rem) !important; letter-spacing: -.02em; }
 .numbers-gtm span { max-width: 22em; font-size: .9rem; color: var(--text2); }
 #competitions .cv-papers li:first-child, #grit .cv-ach li { border-top-color: var(--line2); }
+
+/* home mark: markets, AI, sales */
+.plate .dot.n { fill: var(--text); }
+.plate .t.cap { font: 500 15px var(--sans); letter-spacing: .32em; fill: var(--text); }
+.plate .d.a { stroke-width: 1.8; }
+.plate .d.ring { stroke-opacity: .62; stroke-width: 1; }
+/* one signature colour, used sparingly: the line in the mark, the second line of the name, the labels and the results */
+.plate .d.a { stroke: var(--hi); } .plate .dot.a { fill: var(--hi); }
+.hero h1 span { color: var(--hi); } .hero .kicker, .sec-h h2 + .more:hover { color: var(--hi); }
+.numbers-gtm b { color: var(--hi); } .mark i { background: var(--hi); }
+.psec h2 i, .kicker { color: var(--hi); }
