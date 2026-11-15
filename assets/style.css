@@ -590,3 +590,10 @@ h1 { font-weight: 400 !important; }
 .fg .lw { stroke: #8a909b; }
 .fg .bw { fill: #8a909b; }
 .fg .sc.d { fill: #fff; }
+
+/* home page: results first */
+.sec-lede { max-width: 46em; color: var(--text2); font-size: 1.05rem; line-height: 1.6; margin: -.6rem 0 clamp(1.4rem, 3vw, 2.2rem); }
+.numbers-gtm { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.numbers-gtm b { font-family: var(--serif) !important; font-size: clamp(2rem, 3.6vw, 3.2rem) !important; letter-spacing: -.02em; }
+.numbers-gtm span { max-width: 22em; font-size: .9rem; color: var(--text2); }
+#competitions .cv-papers li:first-child, #grit .cv-ach li { border-top-color: var(--line2); }
