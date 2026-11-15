@@ -45,6 +45,11 @@
         [[0, 3, 2, 1], [4, 5, 6, 7], [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]].forEach(function (f) {
           var n = norm(cross(sub(c[f[1]], c[f[0]]), sub(c[f[2]], c[f[0]])));
           if (!(n[0] || n[1] || n[2])) n = norm(cross(sub(c[f[2]], c[f[0]]), sub(c[f[3]], c[f[0]])));
+          /* point the normal away from the solid's centre, whatever order the corners came in */
+          var mid = [0, 0, 0], fm = [0, 0, 0];
+          c.forEach(function (q) { mid = add(mid, q, 1 / 8); });
+          f.forEach(function (i) { fm = add(fm, c[i], 1 / 4); });
+          if (dot(n, sub(fm, mid)) < 0) n = [-n[0], -n[1], -n[2]];
           tri(c[f[0]], c[f[1]], c[f[2]], n, n, n); tri(c[f[0]], c[f[2]], c[f[3]], n, n, n);
         });
         [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]].forEach(function (e) { seg(c[e[0]], c[e[1]]); });
@@ -74,14 +79,14 @@
 
   var VS = 'attribute vec3 aPos; attribute vec3 aNor; uniform mat4 uMVP; uniform vec3 uOff; varying vec3 vN;' +
     'void main(){ vN = aNor; gl_Position = uMVP * vec4(aPos + uOff, 1.0); }';
-  var FS = 'precision mediump float; varying vec3 vN; uniform vec3 uCol; uniform float uLine;' +
+  var FS = 'precision mediump float; varying vec3 vN; uniform vec3 uCol; uniform float uLine; uniform float uSpec;' +
     'void main(){ if (uLine > 0.5) { gl_FragColor = vec4(0.80, 0.82, 0.88, 0.16); return; }' +
     ' vec3 n = normalize(vN);' +
     ' float key = max(dot(n, normalize(vec3(0.42, 0.34, 0.84))), 0.0);' +
     ' float rim = max(dot(n, normalize(vec3(-0.62, -0.52, -0.22))), 0.0);' +
     ' float spec = pow(max(dot(n, normalize(vec3(0.25, 0.15, 0.96))), 0.0), 28.0);' +
     ' vec3 c = uCol * (0.30 + 0.30 * (0.5 + 0.5 * n.z)) + uCol * 0.85 * key;' +
-    ' c += vec3(1.0, 0.55, 0.35) * 0.10 * rim + vec3(0.9) * 0.20 * spec;' +
+    ' c += vec3(1.0, 0.55, 0.35) * 0.10 * rim + vec3(0.95) * uSpec * spec + vec3(0.6) * uSpec * 0.18 * (0.5 + 0.5 * n.z);' +
     ' gl_FragColor = vec4(c, 1.0); }';
 
   function ui(el) {
@@ -101,7 +106,7 @@
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { load.textContent = 'Model could not load'; return; }
     gl.useProgram(prog);
     var aPos = gl.getAttribLocation(prog, 'aPos'), aNor = gl.getAttribLocation(prog, 'aNor');
-    var uMVP = gl.getUniformLocation(prog, 'uMVP'), uOff = gl.getUniformLocation(prog, 'uOff'), uCol = gl.getUniformLocation(prog, 'uCol'), uLine = gl.getUniformLocation(prog, 'uLine');
+    var uMVP = gl.getUniformLocation(prog, 'uMVP'), uOff = gl.getUniformLocation(prog, 'uOff'), uCol = gl.getUniformLocation(prog, 'uCol'), uLine = gl.getUniformLocation(prog, 'uLine'), uSpec = gl.getUniformLocation(prog, 'uSpec');
     gl.enable(gl.DEPTH_TEST); gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1, 1);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
@@ -127,7 +132,7 @@
       st.parts.forEach(function (p) {
         if (p.hide) return;
         var s = p.s === undefined ? st.t : p.s; gl.uniform3f(uOff, p.ex[0] * s, p.ex[1] * s, p.ex[2] * s);
-        gl.uniform3fv(uCol, p.col); gl.uniform1f(uLine, 0);
+        gl.uniform3fv(uCol, p.col); gl.uniform1f(uSpec, p.spec); gl.uniform1f(uLine, 0);
         gl.enableVertexAttribArray(aNor);
         gl.bindBuffer(gl.ARRAY_BUFFER, p.bPos); gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, p.bNor); gl.vertexAttribPointer(aNor, 3, gl.FLOAT, false, 0, 0);
@@ -201,7 +206,7 @@
     fetch(el.dataset.src).then(function (r) { return r.json(); }).then(function (meta) {
       var lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9], xl = [1e9, 1e9, 1e9], xh = [-1e9, -1e9, -1e9];
       meta.parts.forEach(function (p) {
-        var m = meshPart(p.prims), part = { label: p.label, ex: p.explode || [0, 0, 0], col: PALETTE[p.col] || PALETTE[2], boxes: m.boxes, nTri: m.pos.length / 3, nLin: m.lin.length / 3 };
+        var m = meshPart(p.prims), part = { label: p.label, ex: p.explode || [0, 0, 0], col: p.rgb || PALETTE[p.col] || PALETTE[2], spec: p.spec === undefined ? 0.2 : p.spec, boxes: m.boxes, nTri: m.pos.length / 3, nLin: m.lin.length / 3 };
         part.bPos = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, part.bPos); gl.bufferData(gl.ARRAY_BUFFER, m.pos, gl.STATIC_DRAW);
         part.bNor = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, part.bNor); gl.bufferData(gl.ARRAY_BUFFER, m.nor, gl.STATIC_DRAW);
         part.bLin = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, part.bLin); gl.bufferData(gl.ARRAY_BUFFER, m.lin, gl.STATIC_DRAW);
