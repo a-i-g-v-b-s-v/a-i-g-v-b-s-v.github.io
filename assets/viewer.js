@@ -122,7 +122,8 @@
       gl.uniformMatrix4fv(uMVP, false, new Float32Array(mvp));
       gl.enableVertexAttribArray(aPos);
       st.parts.forEach(function (p) {
-        gl.uniform3f(uOff, p.ex[0] * st.t, p.ex[1] * st.t, p.ex[2] * st.t);
+        if (p.hide) return;
+        var s = p.s === undefined ? st.t : p.s; gl.uniform3f(uOff, p.ex[0] * s, p.ex[1] * s, p.ex[2] * s);
         gl.uniform3fv(uCol, p.col); gl.uniform1f(uLine, 0);
         gl.enableVertexAttribArray(aNor);
         gl.bindBuffer(gl.ARRAY_BUFFER, p.bPos); gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
@@ -133,7 +134,8 @@
         gl.enable(gl.BLEND); gl.uniform1f(uLine, 1);
         gl.disableVertexAttribArray(aNor); gl.vertexAttrib3f(aNor, 0, 0, 1);
         st.parts.forEach(function (p) {
-          gl.uniform3f(uOff, p.ex[0] * st.t, p.ex[1] * st.t, p.ex[2] * st.t);
+          if (p.hide) return;
+          var s = p.s === undefined ? st.t : p.s; gl.uniform3f(uOff, p.ex[0] * s, p.ex[1] * s, p.ex[2] * s);
           gl.bindBuffer(gl.ARRAY_BUFFER, p.bLin); gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
           gl.drawArrays(gl.LINES, 0, p.nLin);
         });
@@ -213,12 +215,39 @@
       st.r0 = rad(lo, hi) * 0.6; st.r1 = Math.max(st.r0, rad(xl, xh) * 0.66);
       st.ready = true; load.remove(); home();
       if (!reduce && el.dataset.spin === '1') { st.spin = true; el.querySelector('[data-a="spin"]').setAttribute('aria-pressed', 'true'); }
+      if (play) { st.pitch = 0.42; st.dist = fitDist(st.r0 + (st.r1 - st.r0) * (play === 'assemble' ? 0.8 : 0)); if (reduce) play = null; }
       draw();
       el.dispatchEvent(new CustomEvent('model-ready'));
     }).catch(function (err) { load.textContent = 'Model could not load'; if (window.console) console.error(err); });
 
-    (function loop() {
+    /* play modes: a looping film made from the same model, like a rendered video but drawn live.
+       'assemble': parts fly in one at a time in build order, the model holds, explodes, holds and closes.
+       'turntable': one full turn every twelve seconds. */
+    var play = el.dataset.play || null, onScreen = true, t0 = null;
+    if (play) {
+      el.classList.add('m3-play'); canvas.style.pointerEvents = 'none';
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }, { rootMargin: '100px' }).observe(el);
+    }
+    function ease(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+    function film(now) {
+      if (t0 === null) t0 = now;
+      var t = (now - t0) / 1000, n = st.parts.length;
+      if (play === 'turntable') { st.yaw = 0.76 + t / 12 * Math.PI * 2; return; }
+      var IN = 7, FLY = 0.9, HOLD = 1.2, OUT = 2.2, OPEN = 1.6, BACK = 1.4, T = IN + HOLD + OUT + OPEN + BACK, u = t % T;
+      st.yaw = 0.76 + 0.28 * Math.sin(t / T * Math.PI * 2);
+      st.parts.forEach(function (p, i) {
+        var start = n > 1 ? i * (IN - FLY) / (n - 1) : 0, s;
+        if (u < IN) { p.hide = u < start; s = 2.4 * (1 - ease((u - start) / FLY)); }
+        else if (u < IN + HOLD) { p.hide = false; s = 0; }
+        else if (u < IN + HOLD + OUT) { p.hide = false; s = ease((u - IN - HOLD) / OUT); }
+        else if (u < IN + HOLD + OUT + OPEN) { p.hide = false; s = 1; }
+        else { p.hide = false; s = 1 - ease((u - IN - HOLD - OUT - OPEN) / BACK); }
+        p.s = s;
+      });
+    }
+    (function loop(now) {
       requestAnimationFrame(loop);
+      if (play && st.ready && onScreen) { film(now || 0); st.dirty = true; }
       if (st.spin && st.ready && !drag) { st.yaw += 0.004; st.dirty = true; }
       if (st.dirty) draw();
     })();

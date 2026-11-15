@@ -543,3 +543,9 @@ h3 { font-size: 1.15rem; font-weight: 400; letter-spacing: -.02em; }
 .foot-conf { margin: 0; padding: 0 0 2rem; font: 500 .72rem var(--mono); letter-spacing: .06em; color: var(--mut); text-transform: uppercase; }
 .foot-bot { padding-bottom: 1rem; }
 @media print { .conf-note { display: block !important; } }
+
+/* looping films drawn from the 3D model */
+.film-fig .model3d { height: clamp(300px, 46vh, 460px) !important; }
+.film-fig.wide .model3d { height: clamp(360px, 60vh, 620px) !important; }
+.m3-play .m3-bar, .m3-play .m3-chip, .m3-play .m3-tip { display: none !important; }
+.m3-play .m3-load { inset: 0; }
