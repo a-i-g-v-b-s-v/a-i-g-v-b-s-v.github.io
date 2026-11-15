@@ -1,9 +1,9 @@
-/* Ivory and navy: warm paper, near-black text, one navy accent, serif headings, hairlines, figures drawn in code. */
+/* White and black: white paper, near-black text and accent, serif headings, hairlines, figures drawn in code. */
 :root {
-  --bg: #fbf9f4; --panel: #ffffff; --panel2: #f3efe6; --line: #e6e0d2; --line2: #cfc7b2;
+  --bg: #ffffff; --panel: #f7f7f5; --panel2: #efeeea; --line: #e4e2dc; --line2: #cbc8bf;
   --text: #14171c; --text2: #353a44; --mut: #50545e; --dim: #6b707b;
-  --accent: #1f3a68; --accent-rgb: 31, 58, 104; --teal: #2b7a78; --steel: #5b6b80;
-  --topbg: rgba(251, 249, 244, .9);
+  --accent: #14171c; --accent-rgb: 20, 23, 28; --teal: #3a6b8a; --steel: #5b6b80;
+  --topbg: rgba(255, 255, 255, .9);
   --sans: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
   --serif: "Newsreader", Georgia, "Times New Roman", serif;
   --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -585,3 +585,8 @@ h1, h2, .psec h2, .numbers b, .foot-big, .card h3, .fg .mid { font-family: var(-
 h1 { font-weight: 400 !important; }
 .hero h1 span, .cv-name span { color: var(--accent); }
 .chip[aria-pressed="true"] b{color:var(--bg);opacity:.7}
+
+/* with a black accent, the second series in a chart is mid grey so the two never look alike */
+.fg .lw { stroke: #8a909b; }
+.fg .bw { fill: #8a909b; }
+.fg .sc.d { fill: #fff; }

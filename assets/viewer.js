@@ -6,7 +6,7 @@
 (function () {
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var LIGHT = document.documentElement.classList.contains('light');
-  var PALETTE = LIGHT ? [[0.86, 0.87, 0.90], [0.62, 0.66, 0.74], [0.45, 0.50, 0.60], [0.12, 0.23, 0.41], [0.30, 0.33, 0.40]] : [[0.80, 0.81, 0.86], [0.56, 0.59, 0.67], [0.38, 0.40, 0.47], [1.0, 0.357, 0.18], [0.27, 0.28, 0.33]];
+  var PALETTE = LIGHT ? [[0.86, 0.87, 0.90], [0.62, 0.66, 0.74], [0.45, 0.50, 0.60], [0.10, 0.11, 0.14], [0.30, 0.33, 0.40]] : [[0.80, 0.81, 0.86], [0.56, 0.59, 0.67], [0.38, 0.40, 0.47], [1.0, 0.357, 0.18], [0.27, 0.28, 0.33]];
   var FOV = 32 * Math.PI / 180, SIDES = 36;
 
   /* ---- small vector helpers ---- */
