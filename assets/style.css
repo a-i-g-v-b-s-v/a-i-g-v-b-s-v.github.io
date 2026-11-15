@@ -540,3 +540,5 @@ h3 { font-size: 1.15rem; font-weight: 400; letter-spacing: -.02em; }
 .psec-cols { display: grid; min-width: 0; }
 @media (max-width: 1099px) { .psec-cols { grid-template-columns: minmax(0, 1fr); gap: 1.4rem; } }
 .psec-wide { position: relative; z-index: 1; }
+.foot-conf { margin: 0; padding: 0 0 2rem; font: 500 .72rem var(--mono); letter-spacing: .06em; color: var(--mut); text-transform: uppercase; }
+.foot-bot { padding-bottom: 1rem; }
