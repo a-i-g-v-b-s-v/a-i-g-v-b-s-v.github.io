@@ -34,14 +34,22 @@
     function tri(a, b, c, na, nb, nc) { pos.push(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2]); nor.push(na[0], na[1], na[2], nb[0], nb[1], nb[2], nc[0], nc[1], nc[2]); }
     function seg(a, b) { lin.push(a[0], a[1], a[2], b[0], b[1], b[2]); }
     prims.forEach(function (p) {
-      if (p[0] === 'b') {
-        var x0 = p[1], y0 = p[2], z0 = p[3], x1 = p[4], y1 = p[5], z1 = p[6];
-        var c = [[x0, y0, z0], [x1, y0, z0], [x1, y1, z0], [x0, y1, z0], [x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]];
-        [[0, 3, 2, 1, [0, 0, -1]], [4, 5, 6, 7, [0, 0, 1]], [0, 1, 5, 4, [0, -1, 0]], [1, 2, 6, 5, [1, 0, 0]], [2, 3, 7, 6, [0, 1, 0]], [3, 0, 4, 7, [-1, 0, 0]]].forEach(function (f) {
-          tri(c[f[0]], c[f[1]], c[f[2]], f[4], f[4], f[4]); tri(c[f[0]], c[f[2]], c[f[3]], f[4], f[4], f[4]);
+      if (p[0] === 'b' || p[0] === 'h') {
+        /* 'h' is a six-sided solid given by its eight corners, in the same order as a box's */
+        var c = [], k;
+        if (p[0] === 'b') {
+          var x0 = p[1], y0 = p[2], z0 = p[3], x1 = p[4], y1 = p[5], z1 = p[6];
+          c = [[x0, y0, z0], [x1, y0, z0], [x1, y1, z0], [x0, y1, z0], [x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]];
+        } else { for (k = 0; k < 8; k++) c.push([p[1 + k * 3], p[2 + k * 3], p[3 + k * 3]]); }
+        [[0, 3, 2, 1], [4, 5, 6, 7], [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]].forEach(function (f) {
+          var n = norm(cross(sub(c[f[1]], c[f[0]]), sub(c[f[2]], c[f[0]])));
+          if (!(n[0] || n[1] || n[2])) n = norm(cross(sub(c[f[2]], c[f[0]]), sub(c[f[3]], c[f[0]])));
+          tri(c[f[0]], c[f[1]], c[f[2]], n, n, n); tri(c[f[0]], c[f[2]], c[f[3]], n, n, n);
         });
         [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]].forEach(function (e) { seg(c[e[0]], c[e[1]]); });
-        boxes.push([x0, y0, z0, x1, y1, z1]);
+        var lo = c[0].slice(), hi = c[0].slice();
+        c.forEach(function (q) { for (k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], q[k]); hi[k] = Math.max(hi[k], q[k]); } });
+        boxes.push([lo[0], lo[1], lo[2], hi[0], hi[1], hi[2]]);
       } else {
         var a = [p[1], p[2], p[3]], b = [p[4], p[5], p[6]], r0 = p[7], r1 = p[8];
         var ax = norm(sub(b, a)), t = Math.abs(ax[0]) < 0.9 ? [1, 0, 0] : [0, 1, 0], u = norm(cross(ax, t)), v = cross(ax, u);
