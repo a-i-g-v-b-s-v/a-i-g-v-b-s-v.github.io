@@ -5,8 +5,8 @@
    Millimetres, z up. */
 (function () {
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var LIGHT = document.documentElement.classList.contains('light');
-  var PALETTE = LIGHT ? [[0.86, 0.87, 0.90], [0.62, 0.66, 0.74], [0.45, 0.50, 0.60], [0.10, 0.11, 0.14], [0.30, 0.33, 0.40]] : [[0.80, 0.81, 0.86], [0.56, 0.59, 0.67], [0.38, 0.40, 0.47], [1.0, 0.357, 0.18], [0.27, 0.28, 0.33]];
+  /* studio look, whatever the page theme: dark matte parts, one orange accent, a dark stage (styled in CSS) */
+  var PALETTE = [[0.16, 0.16, 0.18], [0.46, 0.47, 0.50], [0.25, 0.25, 0.28], [1.0, 0.36, 0.16], [0.34, 0.36, 0.40]];
   var FOV = 32 * Math.PI / 180, SIDES = 36;
 
   /* ---- small vector helpers ---- */
@@ -74,17 +74,19 @@
 
   var VS = 'attribute vec3 aPos; attribute vec3 aNor; uniform mat4 uMVP; uniform vec3 uOff; varying vec3 vN;' +
     'void main(){ vN = aNor; gl_Position = uMVP * vec4(aPos + uOff, 1.0); }';
-  var FS = 'precision mediump float; varying vec3 vN; uniform vec3 uCol; uniform float uLine; uniform float uLight;' +
-    'void main(){ if (uLine > 0.5) { gl_FragColor = uLight > 0.5 ? vec4(0.10, 0.14, 0.24, 0.38) : vec4(0.80, 0.82, 0.88, 0.30); return; }' +
+  var FS = 'precision mediump float; varying vec3 vN; uniform vec3 uCol; uniform float uLine;' +
+    'void main(){ if (uLine > 0.5) { gl_FragColor = vec4(0.80, 0.82, 0.88, 0.16); return; }' +
     ' vec3 n = normalize(vN);' +
-    ' vec3 c = uCol * mix(vec3(0.17, 0.17, 0.22), vec3(0.58, 0.60, 0.68), 0.5 + 0.5 * n.z);' +
-    ' c += uCol * 0.78 * max(dot(n, normalize(vec3(0.42, 0.34, 0.84))), 0.0);' +
-    ' c += vec3(1.0, 0.63, 0.48) * 0.17 * max(dot(n, normalize(vec3(-0.62, -0.52, -0.22))), 0.0);' +
+    ' float key = max(dot(n, normalize(vec3(0.42, 0.34, 0.84))), 0.0);' +
+    ' float rim = max(dot(n, normalize(vec3(-0.62, -0.52, -0.22))), 0.0);' +
+    ' float spec = pow(max(dot(n, normalize(vec3(0.25, 0.15, 0.96))), 0.0), 28.0);' +
+    ' vec3 c = uCol * (0.30 + 0.30 * (0.5 + 0.5 * n.z)) + uCol * 0.85 * key;' +
+    ' c += vec3(1.0, 0.55, 0.35) * 0.10 * rim + vec3(0.9) * 0.20 * spec;' +
     ' gl_FragColor = vec4(c, 1.0); }';
 
   function ui(el) {
     el.innerHTML = '<canvas></canvas><div class="m3-bar"><label class="m3-ex">Explode <input type="range" min="0" max="1" step="0.005" value="0" aria-label="Explode"></label>' +
-      '<button type="button" class="m3-b" data-a="spin" aria-pressed="false">Spin</button><button type="button" class="m3-b" data-a="edges" aria-pressed="true">Edges</button>' +
+      '<button type="button" class="m3-b" data-a="spin" aria-pressed="false">Spin</button><button type="button" class="m3-b" data-a="edges" aria-pressed="false">Edges</button>' +
       '<button type="button" class="m3-b" data-a="reset">Reset</button></div><div class="m3-tip" hidden></div><div class="m3-load">Loading model</div><div class="m3-chip">Drag to rotate</div>';
     return { canvas: el.querySelector('canvas'), slider: el.querySelector('input'), tip: el.querySelector('.m3-tip'), load: el.querySelector('.m3-load') };
   }
@@ -99,11 +101,11 @@
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { load.textContent = 'Model could not load'; return; }
     gl.useProgram(prog);
     var aPos = gl.getAttribLocation(prog, 'aPos'), aNor = gl.getAttribLocation(prog, 'aNor');
-    var uMVP = gl.getUniformLocation(prog, 'uMVP'), uOff = gl.getUniformLocation(prog, 'uOff'), uCol = gl.getUniformLocation(prog, 'uCol'), uLine = gl.getUniformLocation(prog, 'uLine'); gl.uniform1f(gl.getUniformLocation(prog, 'uLight'), LIGHT ? 1 : 0);
+    var uMVP = gl.getUniformLocation(prog, 'uMVP'), uOff = gl.getUniformLocation(prog, 'uOff'), uCol = gl.getUniformLocation(prog, 'uCol'), uLine = gl.getUniformLocation(prog, 'uLine');
     gl.enable(gl.DEPTH_TEST); gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1, 1);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    var st = { parts: [], t: 0, edges: true, spin: false, yaw: 0.76, pitch: 0.48, dist: 1, target: [0, 0, 0], r0: 1, r1: 1, dirty: true, ready: false };
+    var st = { parts: [], t: 0, edges: false, spin: false, yaw: 0.76, pitch: 0.48, dist: 1, target: [0, 0, 0], r0: 1, r1: 1, dirty: true, ready: false };
 
     function eye() {
       var cp = Math.cos(st.pitch);

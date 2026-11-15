@@ -608,3 +608,15 @@ h1 { font-weight: 400 !important; }
 .hero h1 span { color: var(--hi); } .hero .kicker, .sec-h h2 + .more:hover { color: var(--hi); }
 .numbers-gtm b { color: var(--hi); } .mark i { background: var(--hi); }
 .psec h2 i, .kicker { color: var(--hi); }
+
+/* 3D models and films: a dark studio stage, like a rendered product shot */
+.model-fig .model3d { background: radial-gradient(ellipse 70% 60% at 50% 46%, #1d1d21 0%, #0e0e10 55%, #060607 100%) !important; }
+.model-fig .model3d::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 13%; height: 8%; pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, .55), transparent 70%); }
+.film-fig .model3d::after { bottom: 9%; }
+.model-fig .m3-bar { background: #0b0b0c !important; border-top-color: #1b1b1e; color: #b9b9bf; }
+.model-fig .m3-ex, .model-fig .m3-b, .model-fig .m3-chip { background: rgba(11, 11, 12, .82) !important; color: #e9e9ea; border-color: #2a2a2f; }
+.model-fig .m3-b[aria-pressed="true"] { color: #ff5b2e; border-color: #ff5b2e; }
+.model-fig .m3-ex input { accent-color: #ff5b2e; }
+.model-fig .m3-tip { background: #000c; color: #f2f2f2; border-color: #2a2a2f; }
+.model-fig .m3-load { color: #7d7d86; }
