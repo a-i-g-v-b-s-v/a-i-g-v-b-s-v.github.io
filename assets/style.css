@@ -600,7 +600,7 @@ h1 { font-weight: 400 !important; }
 
 /* home mark: markets, AI, sales */
 .plate .dot.n { fill: var(--text); }
-.plate .t.cap { font: 500 15px var(--sans); letter-spacing: .32em; fill: var(--text); }
+.plate .t.cap { font: 500 12px var(--sans); letter-spacing: .2em; fill: var(--text); }
 .plate .d.a { stroke-width: 1.8; }
 .plate .d.ring { stroke-opacity: .62; stroke-width: 1; }
 /* one signature colour, used sparingly: the line in the mark, the second line of the name, the labels and the results */
