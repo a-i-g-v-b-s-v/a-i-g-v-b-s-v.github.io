@@ -30,7 +30,7 @@
   <p class="kicker rv">Index</p>
   <h1 class="rv">Work</h1>
   <p class="lede rv">Every project, with the build, the numbers and what does not work yet. Filter by kind.</p>
-  <div class="chips rv" role="group" aria-label="Filter projects"><button type="button" class="chip" aria-pressed="true" data-filter="all">All <b>11</b></button><button type="button" class="chip" aria-pressed="false" data-filter="trading">Trading <b>4</b></button><button type="button" class="chip" aria-pressed="false" data-filter="research">Research <b>3</b></button><button type="button" class="chip" aria-pressed="false" data-filter="software">Software <b>4</b></button></div>
+  <div class="chips rv" role="group" aria-label="Filter projects"><button type="button" class="chip" aria-pressed="true" data-filter="all">All <b>13</b></button><button type="button" class="chip" aria-pressed="false" data-filter="trading">Trading <b>4</b></button><button type="button" class="chip" aria-pressed="false" data-filter="research">Research <b>3</b></button><button type="button" class="chip" aria-pressed="false" data-filter="software">Software <b>6</b></button></div>
 </div></section>
 <section class="wrap"><div class="grid wide" id="index">
 <a class="card rv" href="https://a-i-g-v-b-s-v.github.io/compute-markets-lab/#/gpu-prices" data-kind="software">
@@ -48,6 +48,24 @@
     <div class="card-meta"><span class="kind">Software</span><span>Nov 2026</span></div>
     <h3>GPU hedge calculator</h3>
     <p>Both sides of a GPU hedge. A buyer sizes a training run and prices a forward or a cap; a fleet owner measures revenue at risk and prices a floor. Default inputs are illustrative.</p>
+  </div>
+  <span class="go" aria-hidden="true">↗</span>
+</a>
+<a class="card rv" href="https://a-i-g-v-b-s-v.github.io/compute-markets-lab/#/collateral" data-kind="software">
+  <div class="media"><svg class="fg cover" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Months until a GPU-backed loan first breaches a covenant, by scenario" preserveAspectRatio="xMidYMid meet"><text class="mid" x="70.0" y="62.0">Months until the loan breaks</text><text class="cl" x="70.0" y="146.0">Base case: no breach</text><rect class="bg" x="360.0" y="110.0" width="374.4" height="60.0"/><text class="cl" x="70.0" y="238.0">Utilization −30%: M46</text><rect class="bg" x="360.0" y="202.0" width="358.8" height="60.0"/><text class="cl" x="70.0" y="330.0">Next generation: M12</text><rect class="ba" x="360.0" y="294.0" width="93.6" height="60.0"/><text class="cl" x="70.0" y="422.0">Prices −30%: M1</text><rect class="ba" x="360.0" y="386.0" width="7.8" height="60.0"/></svg></div>
+  <div class="card-body">
+    <div class="card-meta"><span class="kind">Software</span><span>Nov 2026</span></div>
+    <h3>GPU collateral model</h3>
+    <p>A lender's view of a loan secured on GPUs. A next-generation price step like AWS's 44% H100 cut in 2025 breaks loan-to-value in the same month; a put floor protects cash but not the covenant.</p>
+  </div>
+  <span class="go" aria-hidden="true">↗</span>
+</a>
+<a class="card rv" href="https://a-i-g-v-b-s-v.github.io/compute-markets-lab/#/memory" data-kind="software">
+  <div class="media"><svg class="fg cover" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Which memory has a public daily price" preserveAspectRatio="xMidYMid meet"><text class="mid" x="70.0" y="62.0">Which memory has a public price</text><text class="cl" x="70.0" y="146.0">DDR5 16Gb: daily spot</text><rect class="bg" x="330.0" y="110.0" width="374.4" height="60.0"/><text class="cl" x="70.0" y="238.0">DDR4 16Gb: daily spot</text><rect class="bg" x="330.0" y="202.0" width="374.4" height="60.0"/><text class="cl" x="70.0" y="330.0">HBM: none</text><rect class="ba" x="330.0" y="294.0" width="7.8" height="60.0"/></svg></div>
+  <div class="card-body">
+    <div class="card-meta"><span class="kind">Software</span><span>Nov 2026</span></div>
+    <h3>Memory: why HBM has no price</h3>
+    <p>HBM is sold on negotiated multi-year contracts by three suppliers, so it cannot be indexed from public data. A DRAM spot index design and the case for a memory hedge.</p>
   </div>
   <span class="go" aria-hidden="true">↗</span>
 </a>
