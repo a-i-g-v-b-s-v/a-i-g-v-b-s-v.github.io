@@ -30,42 +30,15 @@
   <p class="kicker rv">Index</p>
   <h1 class="rv">Work</h1>
   <p class="lede rv">Every project, with the build, the numbers and what does not work yet. Filter by kind.</p>
-  <div class="chips rv" role="group" aria-label="Filter projects"><button type="button" class="chip" aria-pressed="true" data-filter="all">All <b>13</b></button><button type="button" class="chip" aria-pressed="false" data-filter="trading">Trading <b>4</b></button><button type="button" class="chip" aria-pressed="false" data-filter="research">Research <b>3</b></button><button type="button" class="chip" aria-pressed="false" data-filter="software">Software <b>6</b></button></div>
+  <div class="chips rv" role="group" aria-label="Filter projects"><button type="button" class="chip" aria-pressed="true" data-filter="all">All <b>10</b></button><button type="button" class="chip" aria-pressed="false" data-filter="trading">Trading <b>4</b></button><button type="button" class="chip" aria-pressed="false" data-filter="research">Research <b>3</b></button><button type="button" class="chip" aria-pressed="false" data-filter="software">Software <b>3</b></button></div>
 </div></section>
 <section class="wrap"><div class="grid wide" id="index">
-<a class="card rv" href="https://a-i-g-v-b-s-v.github.io/compute-markets-lab/#/gpu-prices" data-kind="software">
-  <div class="media"><svg class="fg cover" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="H100 on-demand list price by provider, 21 November 2026" preserveAspectRatio="xMidYMid meet"><text class="mid" x="70.0" y="62.0">One H100, four list prices (USD per GPU-hour)</text><text class="cl" x="70.0" y="138.0">Hyperstack $2.60</text><rect class="bg" x="288.0" y="102.0" width="222.3" height="60.0"/><text class="cl" x="70.0" y="212.0">Nebius $4.50</text><rect class="bg" x="288.0" y="176.0" width="384.7" height="60.0"/><text class="cl" x="70.0" y="286.0">Lambda $4.59</text><rect class="bg" x="288.0" y="250.0" width="392.4" height="60.0"/><text class="cl" x="70.0" y="360.0">Verda $5.24</text><rect class="bg" x="288.0" y="324.0" width="448.0" height="60.0"/><text class="cl" x="70.0" y="434.0">Median $4.54</text><rect class="ba" x="288.0" y="398.0" width="388.1" height="60.0"/></svg></div>
+<a class="card rv" href="work/tomorrows-exchange.html" data-kind="software">
+  <div class="media"><svg class="fg cover" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="H100 on-demand list prices, 21 November 2026: neocloud range and hyperscaler median" preserveAspectRatio="xMidYMid meet"><text class="mid" x="70.0" y="62.0">One H100 today (USD per GPU-hour)</text><text class="cl" x="70.0" y="146.0">Cheapest neocloud $2.60</text><rect class="bg" x="330.0" y="110.0" width="114.7" height="60.0"/><text class="cl" x="70.0" y="238.0">Neocloud median $4.54</text><rect class="ba" x="330.0" y="202.0" width="200.2" height="60.0"/><text class="cl" x="70.0" y="330.0">Dearest neocloud $5.24</text><rect class="bg" x="330.0" y="294.0" width="231.1" height="60.0"/><text class="cl" x="70.0" y="422.0">Hyperscaler median $9.07</text><rect class="bg" x="330.0" y="386.0" width="400.0" height="60.0"/></svg></div>
   <div class="card-body">
-    <div class="card-meta"><span class="kind">Software</span><span>Nov 2026</span></div>
-    <h3>GPU price tracker</h3>
-    <p>An independent, hourly H100, H200 and B200 price series from public provider price lists. On 21 Nov 2026 an on-demand H100 listed from $2.60 to $5.24 across four neoclouds.</p>
-  </div>
-  <span class="go" aria-hidden="true">↗</span>
-</a>
-<a class="card rv" href="https://a-i-g-v-b-s-v.github.io/compute-markets-lab/#/hedge-calculator" data-kind="software">
-  <div class="media"><svg class="fg cover" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cost of one training run at three utilization assumptions, and the cost of capping it" preserveAspectRatio="xMidYMid meet"><text class="mid" x="70.0" y="62.0">One training run, three budgets</text><text class="cl" x="70.0" y="146.0">20% utilization $3.05M</text><rect class="bg" x="330.0" y="110.0" width="403.2" height="60.0"/><text class="cl" x="70.0" y="238.0">40% utilization $1.53M</text><rect class="bg" x="330.0" y="202.0" width="202.5" height="60.0"/><text class="cl" x="70.0" y="330.0">60% utilization $1.02M</text><rect class="bg" x="330.0" y="294.0" width="135.3" height="60.0"/><text class="cl" x="70.0" y="422.0">Cap on the 40% case $88k</text><rect class="ba" x="330.0" y="386.0" width="11.6" height="60.0"/></svg></div>
-  <div class="card-body">
-    <div class="card-meta"><span class="kind">Software</span><span>Nov 2026</span></div>
-    <h3>GPU hedge calculator</h3>
-    <p>Both sides of a GPU hedge. A buyer sizes a training run and prices a forward or a cap; a fleet owner measures revenue at risk and prices a floor. Default inputs are illustrative.</p>
-  </div>
-  <span class="go" aria-hidden="true">↗</span>
-</a>
-<a class="card rv" href="https://a-i-g-v-b-s-v.github.io/compute-markets-lab/#/collateral" data-kind="software">
-  <div class="media"><svg class="fg cover" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Months until a GPU-backed loan first breaches a covenant, by scenario" preserveAspectRatio="xMidYMid meet"><text class="mid" x="70.0" y="62.0">Months until the loan breaks</text><text class="cl" x="70.0" y="146.0">Base case: no breach</text><rect class="bg" x="360.0" y="110.0" width="374.4" height="60.0"/><text class="cl" x="70.0" y="238.0">Utilization −30%: M46</text><rect class="bg" x="360.0" y="202.0" width="358.8" height="60.0"/><text class="cl" x="70.0" y="330.0">Next generation: M12</text><rect class="ba" x="360.0" y="294.0" width="93.6" height="60.0"/><text class="cl" x="70.0" y="422.0">Prices −30%: M1</text><rect class="ba" x="360.0" y="386.0" width="7.8" height="60.0"/></svg></div>
-  <div class="card-body">
-    <div class="card-meta"><span class="kind">Software</span><span>Nov 2026</span></div>
-    <h3>GPU collateral model</h3>
-    <p>A lender's view of a loan secured on GPUs. A next-generation price step like AWS's 44% H100 cut in 2025 breaks loan-to-value in the same month; a put floor protects cash but not the covenant.</p>
-  </div>
-  <span class="go" aria-hidden="true">↗</span>
-</a>
-<a class="card rv" href="https://a-i-g-v-b-s-v.github.io/compute-markets-lab/#/memory" data-kind="software">
-  <div class="media"><svg class="fg cover" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Which memory has a public daily price" preserveAspectRatio="xMidYMid meet"><text class="mid" x="70.0" y="62.0">Which memory has a public price</text><text class="cl" x="70.0" y="146.0">DDR5 16Gb: daily spot</text><rect class="bg" x="330.0" y="110.0" width="374.4" height="60.0"/><text class="cl" x="70.0" y="238.0">DDR4 16Gb: daily spot</text><rect class="bg" x="330.0" y="202.0" width="374.4" height="60.0"/><text class="cl" x="70.0" y="330.0">HBM: none</text><rect class="ba" x="330.0" y="294.0" width="7.8" height="60.0"/></svg></div>
-  <div class="card-body">
-    <div class="card-meta"><span class="kind">Software</span><span>Nov 2026</span></div>
-    <h3>Memory: why HBM has no price</h3>
-    <p>HBM is sold on negotiated multi-year contracts by three suppliers, so it cannot be indexed from public data. A DRAM spot index design and the case for a memory hedge.</p>
+    <div class="card-meta"><span class="kind">Software</span><span>Nov 2026 · Live</span></div>
+    <h3>Tomorrow's Exchange</h3>
+    <p>The groundwork for a market in compute: a live GPU price index from seven providers' public price lists, hedges for both sides of a GPU-hour, a lender's model of GPU-backed loans, and the case for indexing memory next.</p>
   </div>
   <span class="go" aria-hidden="true">↗</span>
 </a>
