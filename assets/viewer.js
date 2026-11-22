@@ -79,8 +79,8 @@
 
   var VS = 'attribute vec3 aPos; attribute vec3 aNor; uniform mat4 uMVP; uniform vec3 uOff; varying vec3 vN;' +
     'void main(){ vN = aNor; gl_Position = uMVP * vec4(aPos + uOff, 1.0); }';
-  var FS = 'precision mediump float; varying vec3 vN; uniform vec3 uCol; uniform float uLine; uniform float uSpec;' +
-    'void main(){ if (uLine > 0.5) { gl_FragColor = vec4(0.80, 0.82, 0.88, 0.16); return; }' +
+  var FS = 'precision mediump float; varying vec3 vN; uniform vec3 uCol; uniform float uLine; uniform float uSpec; uniform vec4 uEdge;' +
+    'void main(){ if (uLine > 0.5) { gl_FragColor = uEdge; return; }' +
     ' vec3 n = normalize(vN);' +
     ' float key = max(dot(n, normalize(vec3(0.42, 0.34, 0.84))), 0.0);' +
     ' float rim = max(dot(n, normalize(vec3(-0.62, -0.52, -0.22))), 0.0);' +
@@ -106,7 +106,7 @@
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { load.textContent = 'Model could not load'; return; }
     gl.useProgram(prog);
     var aPos = gl.getAttribLocation(prog, 'aPos'), aNor = gl.getAttribLocation(prog, 'aNor');
-    var uMVP = gl.getUniformLocation(prog, 'uMVP'), uOff = gl.getUniformLocation(prog, 'uOff'), uCol = gl.getUniformLocation(prog, 'uCol'), uLine = gl.getUniformLocation(prog, 'uLine'), uSpec = gl.getUniformLocation(prog, 'uSpec');
+    var uMVP = gl.getUniformLocation(prog, 'uMVP'), uOff = gl.getUniformLocation(prog, 'uOff'), uCol = gl.getUniformLocation(prog, 'uCol'), uLine = gl.getUniformLocation(prog, 'uLine'), uSpec = gl.getUniformLocation(prog, 'uSpec'), uEdge = gl.getUniformLocation(prog, 'uEdge');
     gl.enable(gl.DEPTH_TEST); gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1, 1);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
@@ -139,7 +139,7 @@
         gl.drawArrays(gl.TRIANGLES, 0, p.nTri);
       });
       if (st.edges) {
-        gl.enable(gl.BLEND); gl.uniform1f(uLine, 1);
+        gl.enable(gl.BLEND); gl.uniform1f(uLine, 1); gl.uniform4fv(uEdge, st.edge || [0.80, 0.82, 0.88, 0.16]);
         gl.disableVertexAttribArray(aNor); gl.vertexAttrib3f(aNor, 0, 0, 1);
         st.parts.forEach(function (p) {
           if (p.hide) return;
@@ -220,7 +220,7 @@
       });
       st.target = [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2];
       function rad(a, b) { var m = 0; for (var k = 0; k < 3; k++) m += Math.pow(Math.max(Math.abs(a[k] - st.target[k]), Math.abs(b[k] - st.target[k])), 2); return Math.sqrt(m); }
-      var fit = meta.fit || 1; st.r0 = rad(lo, hi) * 0.6 * fit; st.r1 = Math.max(st.r0, rad(xl, xh) * 0.66 * fit);
+      var fit = meta.fit || 1; st.edge = meta.edge || null; if (meta.edges) st.edges = true; st.r0 = rad(lo, hi) * 0.6 * fit; st.r1 = Math.max(st.r0, rad(xl, xh) * 0.66 * fit);
       st.ready = true; load.remove(); home();
       if (!reduce && el.dataset.spin === '1') { st.spin = true; el.querySelector('[data-a="spin"]').setAttribute('aria-pressed', 'true'); }
       if (play) { st.pitch = 0.42; st.dist = fitDist(st.r0 + (st.r1 - st.r0) * (play === 'assemble' ? 0.8 : 0)); if (reduce) play = null; }
