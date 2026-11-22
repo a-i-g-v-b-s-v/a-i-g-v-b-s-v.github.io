@@ -220,7 +220,7 @@
       });
       st.target = [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2];
       function rad(a, b) { var m = 0; for (var k = 0; k < 3; k++) m += Math.pow(Math.max(Math.abs(a[k] - st.target[k]), Math.abs(b[k] - st.target[k])), 2); return Math.sqrt(m); }
-      st.r0 = rad(lo, hi) * 0.6; st.r1 = Math.max(st.r0, rad(xl, xh) * 0.66);
+      var fit = meta.fit || 1; st.r0 = rad(lo, hi) * 0.6 * fit; st.r1 = Math.max(st.r0, rad(xl, xh) * 0.66 * fit);
       st.ready = true; load.remove(); home();
       if (!reduce && el.dataset.spin === '1') { st.spin = true; el.querySelector('[data-a="spin"]').setAttribute('aria-pressed', 'true'); }
       if (play) { st.pitch = 0.42; st.dist = fitDist(st.r0 + (st.r1 - st.r0) * (play === 'assemble' ? 0.8 : 0)); if (reduce) play = null; }
