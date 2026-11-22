@@ -86,7 +86,7 @@
     ' float rim = max(dot(n, normalize(vec3(-0.62, -0.52, -0.22))), 0.0);' +
     ' float spec = pow(max(dot(n, normalize(vec3(0.25, 0.15, 0.96))), 0.0), 28.0);' +
     ' vec3 c = uCol * (0.30 + 0.30 * (0.5 + 0.5 * n.z)) + uCol * 0.85 * key;' +
-    ' c += vec3(1.0, 0.55, 0.35) * 0.10 * rim + vec3(0.95) * uSpec * spec + vec3(0.6) * uSpec * 0.18 * (0.5 + 0.5 * n.z);' +
+    ' c += vec3(0.80) * 0.10 * rim + vec3(0.95) * uSpec * spec + vec3(0.6) * uSpec * 0.18 * (0.5 + 0.5 * n.z);' +
     ' gl_FragColor = vec4(c, 1.0); }';
 
   function ui(el) {
