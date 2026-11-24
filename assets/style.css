@@ -620,3 +620,6 @@ h1 { font-weight: 400 !important; }
 .model-fig .m3-ex input { accent-color: #ff5b2e; }
 .model-fig .m3-tip { background: #000c; color: #f2f2f2; border-color: #2a2a2f; }
 .model-fig .m3-load { color: #7d7d86; }
+
+.cv-when.cv-wl { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; column-gap: 1.2rem; }
+.cv-when.cv-wl span:last-child { text-align: right; margin-left: auto; }
