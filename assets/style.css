@@ -627,3 +627,5 @@ h1 { font-weight: 400 !important; }
 .cv-grp { font: 400 .64rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--mut); margin: .9rem 0 .35rem; }
 .cv-when + .cv-grp { margin-top: .2rem; }
 .cv-tight li { font-size: .86rem; line-height: 1.45; margin-bottom: .3rem; }
+
+.cv-pts li { font-size: .86rem; line-height: 1.45; margin-bottom: .3rem; }
